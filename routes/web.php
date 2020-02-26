@@ -96,7 +96,7 @@ Route::prefix('{user}')->group(function() {
             Route::prefix('learning-object')->group(function() {
                 /* ---------Start Route For Company Instructor Learning Object Material Access -------- */
                 Route::prefix('reference-material')->group(function () {
-                    Route::get('/', 'learningController@ReferenceMaterial');
+                    Route::get('/', 'LearningController@ReferenceMaterial');
                     Route::post('/update', 'CourseController@UpdateProperties');
                     Route::post('/updatePropertiesDetail', 'CourseController@updatePropertiesDetail');
                     Route::post('/updateCatalogue', 'CourseController@updateCatalogue');
@@ -114,16 +114,16 @@ Route::prefix('{user}')->group(function() {
 
                 /* ---------Start Route For Company Instructor Manage Course Questions  Access -------- */
                 Route::prefix('manage-mcq')->group(function() {
-                    Route::get('/', 'learningController@Mcq');
+                    Route::get('/', 'LearningController@Mcq');
 
                     /* ----Abhishek Anand----- */
-                    Route::get('/set_mcq_question', 'learningController@SetMcqQuestion');
-                    Route::post('/add', 'learningController@Add_mcq');
-                    Route::get('/delete_mcq/{id}', 'learningController@delete_mcq');
-                    Route::get('/active_deactive_mcq/{id}', 'learningController@active_deactive_mcq');
-                    Route::get('/changeStatus', 'learningController@changeStatus');
-                    Route::get('/edit_mcq/{mcq_id}', 'learningController@edit_mcq');
-                    Route::get('/set_mcq_question', 'learningController@SetMcqQuestion');
+                    Route::get('/set_mcq_question', 'LearningController@SetMcqQuestion');
+                    Route::post('/add', 'LearningController@Add_mcq');
+                    Route::get('/delete_mcq/{id}', 'LearningController@delete_mcq');
+                    Route::get('/active_deactive_mcq/{id}', 'LearningController@active_deactive_mcq');
+                    Route::get('/changeStatus', 'LearningController@changeStatus');
+                    Route::get('/edit_mcq/{mcq_id}', 'LearningController@edit_mcq');
+                    Route::get('/set_mcq_question', 'LearningController@SetMcqQuestion');
                     /* ------End Anand Route------ */
                 });
                 /* ----------------End Company Instructor Manage Course Questions  Route----------------- */
@@ -292,7 +292,7 @@ Route::prefix('{user}')->group(function() {
         Route::prefix('learning-object')->group(function() {
             /* ---------Start Route For Instructor Learning Object Material Access -------- */
             Route::prefix('reference-material')->group(function () {
-                Route::get('/', 'learningController@ReferenceMaterial');
+                Route::get('/', 'LearningController@ReferenceMaterial');
                 Route::post('/update', 'CourseController@UpdateProperties');
                 Route::post('/updatePropertiesDetail', 'CourseController@updatePropertiesDetail');
                 Route::post('/updateCatalogue', 'CourseController@updateCatalogue');
@@ -310,16 +310,16 @@ Route::prefix('{user}')->group(function() {
 
             /* ---------Start Route For Instructor Manage Course Questions  Access -------- */
             Route::prefix('manage-mcq')->group(function() {
-                Route::get('/', 'learningController@Mcq');
+                Route::get('/', 'LearningController@Mcq');
 
                 /* ----Abhishek Anand----- */
-                Route::get('/set_mcq_question', 'learningController@SetMcqQuestion');
-                Route::post('/add', 'learningController@Add_mcq');
-                Route::get('/delete_mcq/{id}', 'learningController@delete_mcq');
-                Route::get('/active_deactive_mcq/{id}', 'learningController@active_deactive_mcq');
-                Route::get('/changeStatus', 'learningController@changeStatus');
-                Route::get('/edit_mcq/{mcq_id}', 'learningController@edit_mcq');
-                Route::get('/set_mcq_question', 'learningController@SetMcqQuestion');
+                Route::get('/set_mcq_question', 'LearningController@SetMcqQuestion');
+                Route::post('/add', 'LearningController@Add_mcq');
+                Route::get('/delete_mcq/{id}', 'LearningController@delete_mcq');
+                Route::get('/active_deactive_mcq/{id}', 'LearningController@active_deactive_mcq');
+                Route::get('/changeStatus', 'LearningController@changeStatus');
+                Route::get('/edit_mcq/{mcq_id}', 'LearningController@edit_mcq');
+                Route::get('/set_mcq_question', 'LearningController@SetMcqQuestion');
                 /* ------End Anand Route------ */
             });
             /* ----------------End Instructor Manage Course Questions  Route----------------- */

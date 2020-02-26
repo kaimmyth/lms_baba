@@ -126,12 +126,36 @@ class LearningController extends Controller {
         return redirect()->back();
     }
 
-    public function edit_mcq(Request $Request) {
-        $requrired_id = $Request->mcq_id;
-        $data['mcq_questions'] = mcq_questions::find($requrired_id);
-        $data['mcq_answer'] = mcq_answer::where('question_id', $requrired_id)->get()->toArray();
-        return $data;
-    }
+    
+public function edit_mcq(Request $Request)
+{
+    // return $Request->mcq_id;
+    $requrired_id = $Request->mcq_id;
+    // $data['mcq_questions']  = mcq_questions::find($requrired_id);
+    $data['mcq_questions']  = mcq_questions::where('mcq_questions.id', $requrired_id)
+    ->leftjoin('courses', 'courses.id', '=', 'mcq_questions.course_id')
+    ->select(
+        'mcq_questions.id as id',
+        'mcq_questions.org_id as org_id',
+        'mcq_questions.course_id as course_id',
+        'mcq_questions.category as category',
+        'mcq_questions.type as type',
+        'mcq_questions.score as score',
+        'mcq_questions.question as question',
+        'mcq_questions.status as status',
+        'mcq_questions.live_status as live_status',
+        'courses.course_name as course_name'
+    )
+    ->first();
+    $data['mcq_answer'] = mcq_answer::where('question_id',$requrired_id)->get()->toArray();
+    
+    // $data['course_details'] = Course::where('id',$requrired_id)->first();
+    // echo "<pre>";
+    // print_r($data);
+    // exit;
+
+    return $data;
+}
 
     public function active_deactive_mcq(Request $Request) {
         $remove_question = mcq_questions::where('id', $Request->id)->update(array(

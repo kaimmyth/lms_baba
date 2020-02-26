@@ -172,7 +172,7 @@
                                     <i class="pe-7s-car icon-gradient bg-mean-fruit">
                                     </i>
                                 </div>
-                                <div> <span id="type_question"></span>  <span class="question_type_edit"></span>  Choice Question
+                                <div>  <span class="question_type_show"></span>  Choice Question
                                 
                                     <div class="page-title-subheading">This is an example dashboard created using build-in elements and components.
                                     </div>
@@ -264,7 +264,7 @@
                     $("#course_name_show").html(data.mcq_questions.course_name);
                     $("#question_type_show").html(data.mcq_questions.type);
 
-                    $(".question_type_edit").html(data.mcq_questions.type);
+                    $(".question_type_show").html(data.mcq_questions.type);
 
                     var answer = $("#answer_show").html(data.mcq_answer.answer);
 
@@ -491,7 +491,7 @@
                     <hr class="new2">
 
                     <div  style="float: right;">
-                        <input type="text" id="hidden_type" name="question_type" value="" >
+                        <input type="text" id="hidden_type" name="question_type" value="" hidden>
                         <button data-dismiss="modal" onclick="resetUserForm()" class="ladda-button mb-2 mr-2 btn-square btn btn-gradient-danger" data-style="slide-up">
                             <span class="ladda-label" >Cancel</span><span class="ladda-spinner"></span>
                         </button>
