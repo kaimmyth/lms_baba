@@ -1,0 +1,27 @@
+.vertical-nav-menu li a {
+    display: block;
+    line-height: 2.4rem;
+    height: 2.4rem;
+    padding: 0 1.5rem 0 45px;
+    position: relative;
+    border-radius: .25rem;
+    color: #ffffff;
+    white-space: nowrap;
+    transition: all .2s;
+    margin: .1rem 0;
+}
+.app-sidebar__heading {
+    text-transform: uppercase;
+    font-size: .8rem;
+    margin: .75rem 0;
+    font-weight: bold;
+    color: #CDDC39;
+    white-space: nowrap;
+    position: relative;
+}
+.vertical-nav-menu ul>li>a {
+    color: #ffffff;
+    height: 2rem;
+    line-height: 2rem;
+    padding: 0 1.5rem 0;
+}
