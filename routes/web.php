@@ -124,6 +124,7 @@ Route::prefix('{user}')->group(function() {
                     Route::get('/changeStatus', 'LearningController@changeStatus');
                     Route::get('/edit_mcq/{mcq_id}', 'LearningController@edit_mcq');
                     Route::get('/set_mcq_question', 'LearningController@SetMcqQuestion');
+                    Route::get('/fetch_mcq_question/{id}', 'LearningController@fetch_mcq_question');
                     /* ------End Anand Route------ */
                 });
                 /* ----------------End Company Instructor Manage Course Questions  Route----------------- */
@@ -320,6 +321,7 @@ Route::prefix('{user}')->group(function() {
                 Route::get('/changeStatus', 'LearningController@changeStatus');
                 Route::get('/edit_mcq/{mcq_id}', 'LearningController@edit_mcq');
                 Route::get('/set_mcq_question', 'LearningController@SetMcqQuestion');
+                Route::get('/fetch_mcq_question/{id}', 'LearningController@fetch_mcq_question');
                 /* ------End Anand Route------ */
             });
             /* ----------------End Instructor Manage Course Questions  Route----------------- */

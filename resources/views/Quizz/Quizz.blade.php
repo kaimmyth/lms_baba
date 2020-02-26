@@ -41,7 +41,7 @@
                                 <div class="position-relative form-group">
                                     <label for="" class="">Course Name&nbsp;<font style="color:red; font-size:18px;">*</font></label>
                                     <span id="course">
-                                        <select class="form-control" name="course_id" required="">
+                                        <select class="form-control" name="course_id" required="" onchange="fetch_question_details(this.value)" >
                                             <option value="">--Select Course--</option>
                                             @if(@$courseList)
                                             @foreach($courseList AS $key=>$value)
@@ -92,6 +92,21 @@
                                     </select>
                                     </span>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-12">
+                                <table class="mb-0 table table-sm">
+                                    <thead style="width: 100%;"> 
+                                        <tr>
+                                            <th>Select Questions</th>
+                                        </tr>
+                                    </thead>
+                                   
+                                    <tbody id="table_element_show" > 
+                                
+                                    </tbody>
+                                </table>
                             </div>
                             <br>
 
@@ -209,4 +224,44 @@
             toastr.error('Someting Wrong...!'); 
         }
     }
+</script>
+
+<!-- ============================================= 5th ================================== -->
+<script>
+    function fetch_question_details(id) {
+        $('#umo_for_subscription').empty();
+    // alert(id);
+    $.ajaxSetup({
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+    });
+
+    $.ajax({
+        url: "{{url('/'.Auth::user()->name.'/company/instructor/learning-object/manage-mcq/fetch_mcq_question')}}"+"/"+id ,
+            method: "GET",
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (data) {
+               
+            console.log(data);
+            console.log(data.mcq_questions);
+            var markup_show = ``;
+            if(data.mcq_questions)
+                    {
+                        for(i=0; i<data.mcq_questions.length; i++)
+                        {
+                            
+                                
+                           
+                            markup_show += `<tr><td><input type='checkbox' value='1"+name+"' name='correct_answer[]'></td><td>`+data.mcq_questions[i].question+`</td>`;
+                            markup_show += `</tr>`;
+                          
+                        }
+                       
+                        $("#table_element_show").html(markup_show);
+                    }
+             }
+    });
+}
 </script>

@@ -278,7 +278,7 @@
                     $(".xoc").show();
                     $(".text_area_long_answer").show();
                     console.log(data.mcq_answer.length);
-                    if(data.mcq_answer.length>1)
+                    if(data.mcq_answer.length>0)
                     {
                         // alert("G");
                         
@@ -589,7 +589,7 @@
                     $(".add_new_row_x").show();
                     $(".xoc").show();
                     $(".text_area_long_answer").show();
-                    if(data.mcq_answer.length>1)
+                    if(data.mcq_answer.length>0)
                     {
                         // alert("G");
                         for(i=0; i<data.mcq_answer.length; i++)

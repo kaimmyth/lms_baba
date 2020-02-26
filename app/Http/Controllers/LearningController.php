@@ -58,60 +58,121 @@ class LearningController extends Controller {
     }
 
     public function Add_mcq(Request $request) {
-        if ($request->mcq_id != "") {
-            $mcq = mcq_questions::find($request->mcq_id);
-            $mcq->org_id = session::get('org_id');
-            $mcq->course_id = $request->course_id;
-            $mcq->category = $request->question_category;
-            $mcq->score = $request->score;
-            $mcq->question = $request->question;
-            $mcq->created_by = session::get('id');
-            $mcq->save();
-            if ($request->record_value_id != "") {
-                foreach ($request->record_value as $key => $value) {
-                    $answer = mcq_answer::find($request->record_value_id[$key]);
-                    $answer->org_id = $mcq->org_id;
-                    $answer->question_id = $mcq->id;
-                    $answer->created_by = session::get('id');
-                    $answer->answer = $request->record_value[$key];
-                    if ($request->correct_answer) {
-                        if (in_array('1' . $request->record_value[$key], $request->correct_answer)) {
-                            $answer->correct_answer = 1;
-                        } else {
-                            $answer->correct_answer = 0;
-                        }
+        // return $request;
+        // return $request->correct_answer;
+
+        if ($request->mcq_id != "")
+        {
+            // echo "edit";
+                // $mcq= new mcq_questions();
+                $mcq = mcq_questions::find($request->mcq_id);
+                $mcq->org_id = session::get('org_id');
+                $mcq->course_id = $request->course_id;
+                $mcq->category = $request->question_category;
+                $mcq->score = $request->score;
+                // $mcq->type = $request->question_type;
+                $mcq->question = $request->question;
+                $mcq->created_by = session::get('id');
+                $mcq->save();
+
+                
+                if ($request->record_value_id != "" ) {
+                    foreach ($request->record_value as $key => $value) {
+                        
+                            // $answer = new mcq_answer();
+                            $answer = mcq_answer::find($request->record_value_id[$key]);
+                            // return $answer;
+                            $answer->org_id =  $mcq->org_id;
+                            $answer->question_id = $mcq->id;
+                            $answer->created_by = session::get('id');
+                            $answer->answer = $request->record_value[$key];
+                           
+                            if($request->correct_answer) {
+                                if (in_array('1' .$request->record_value[$key], $request->correct_answer))
+                                {
+                                    $answer->correct_answer = 1;
+                                }
+                                else {
+                                    $answer->correct_answer = 0;
+                                }
+                            }
+                            $answer->save();
+                    
                     }
-                    $answer->save();
                 }
-            }
-        } else {
-            $mcq = new mcq_questions();
-            $mcq->org_id = session::get('org_id');
-            $mcq->course_id = $request->course_id;
-            $mcq->category = $request->question_category;
-            $mcq->score = $request->score;
-            $mcq->type = $request->question_type;
-            $mcq->question = $request->question;
-            $mcq->created_by = session::get('id');
-            $mcq->save();
-            if ($request->record_value != "") {
-                foreach ($request->record_value as $key => $value) {
-                    $answer = new mcq_answer();
-                    $answer->org_id = $mcq->org_id;
-                    $answer->question_id = $mcq->id;
-                    $answer->created_by = session::get('id');
-                    $answer->answer = $request->record_value[$key];
-                    if ($request->correct_answer) {
-                        if (in_array('1' . $request->record_value[$key], $request->correct_answer)) {
-                            $answer->correct_answer = 1;
-                        } else {
-                            $answer->correct_answer = 0;
-                        }
-                    }
-                    $answer->save();
-                }
-            }
         }
+        else 
+        {
+            // echo "add";
+                $mcq= new mcq_questions();
+                $mcq->org_id = session::get('org_id');
+                $mcq->course_id = $request->course_id;
+                $mcq->category = $request->question_category;
+                $mcq->score = $request->score;
+                $mcq->type = $request->question_type;
+                $mcq->question = $request->question;
+                $mcq->created_by = session::get('id');
+                $mcq->save();
+
+
+                if ($request->record_value != "" ) {
+                    foreach ($request->record_value as $key => $value) {
+                        
+                            $answer = new mcq_answer();
+                            $answer->org_id =  $mcq->org_id;
+                            $answer->question_id = $mcq->id;
+                            $answer->created_by = session::get('id');
+                            $answer->answer = $request->record_value[$key];
+                            // if('1'.$request->record_value[$key] == $request->correct_answer)
+                            if($request->correct_answer) {
+                                if (in_array('1' .$request->record_value[$key], $request->correct_answer))
+                                {
+                                    $answer->correct_answer = 1;
+                                }
+                                else {
+                                    $answer->correct_answer = 0;
+                                }
+                            }
+                            $answer->save();
+                    
+                    }
+                }
+        }
+        // exit;
+                // $mcq= new mcq_questions();
+                // $mcq->org_id = session::get('org_id');
+                // $mcq->course_id = $request->course_id;
+                // $mcq->category = $request->question_category;
+                // $mcq->score = $request->score;
+                // $mcq->type = $request->question_type;
+                // $mcq->question = $request->question;
+                // $mcq->created_by = session::get('id');
+                // $mcq->save();
+
+
+                // if ($request->record_value != "" ) {
+                //     foreach ($request->record_value as $key => $value) {
+                        
+                //             $answer = new mcq_answer();
+                //             $answer->org_id =  $mcq->org_id;
+                //             $answer->question_id = $mcq->id;
+                //             $answer->created_by = session::get('id');
+                //             $answer->answer = $request->record_value[$key];
+                //             if('1'.$request->record_value[$key] == $request->correct_answer)
+                //             {
+                //                 $answer->correct_answer = 1;
+                //             }
+                //             else {
+                //                 $answer->correct_answer = 0;
+                //             }
+                //             $answer->save();
+                    
+                //     }
+                // }
+
+
+
+        // session()->flash('success', 'Create Successful...!');
         return redirect()->back();
     }
 
@@ -127,35 +188,35 @@ class LearningController extends Controller {
     }
 
     
-public function edit_mcq(Request $Request)
-{
-    // return $Request->mcq_id;
-    $requrired_id = $Request->mcq_id;
-    // $data['mcq_questions']  = mcq_questions::find($requrired_id);
-    $data['mcq_questions']  = mcq_questions::where('mcq_questions.id', $requrired_id)
-    ->leftjoin('courses', 'courses.id', '=', 'mcq_questions.course_id')
-    ->select(
-        'mcq_questions.id as id',
-        'mcq_questions.org_id as org_id',
-        'mcq_questions.course_id as course_id',
-        'mcq_questions.category as category',
-        'mcq_questions.type as type',
-        'mcq_questions.score as score',
-        'mcq_questions.question as question',
-        'mcq_questions.status as status',
-        'mcq_questions.live_status as live_status',
-        'courses.course_name as course_name'
-    )
-    ->first();
-    $data['mcq_answer'] = mcq_answer::where('question_id',$requrired_id)->get()->toArray();
-    
-    // $data['course_details'] = Course::where('id',$requrired_id)->first();
-    // echo "<pre>";
-    // print_r($data);
-    // exit;
+    public function edit_mcq(Request $Request)
+    {
+        // return $Request->mcq_id;
+        $requrired_id = $Request->mcq_id;
+        // $data['mcq_questions']  = mcq_questions::find($requrired_id);
+        $data['mcq_questions']  = mcq_questions::where('mcq_questions.id', $requrired_id)
+        ->leftjoin('courses', 'courses.id', '=', 'mcq_questions.course_id')
+        ->select(
+            'mcq_questions.id as id',
+            'mcq_questions.org_id as org_id',
+            'mcq_questions.course_id as course_id',
+            'mcq_questions.category as category',
+            'mcq_questions.type as type',
+            'mcq_questions.score as score',
+            'mcq_questions.question as question',
+            'mcq_questions.status as status',
+            'mcq_questions.live_status as live_status',
+            'courses.course_name as course_name'
+        )
+        ->first();
+        $data['mcq_answer'] = mcq_answer::where('question_id',$requrired_id)->get()->toArray();
+        
+        // $data['course_details'] = Course::where('id',$requrired_id)->first();
+        // echo "<pre>";
+        // print_r($data);
+        // exit;
 
-    return $data;
-}
+        return $data;
+    }
 
     public function active_deactive_mcq(Request $Request) {
         $remove_question = mcq_questions::where('id', $Request->id)->update(array(
@@ -174,6 +235,17 @@ public function edit_mcq(Request $Request)
         return $data;
     }
     
+    public function fetch_mcq_question(Request $Request)
+	{
+			$data['mcq_questions']=mcq_questions::where('course_id',$Request->id)->get()->toArray();
+
+		// echo ("<pre>");
+		// print_r($data);
+		// exit;
+		
+		return $data;
+	}
+
     /* --------End Abhishek Anand code--------- */
 
 }
