@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Course;
 use Illuminate\Support\Facades\Session;
 use App\Quizz;
+use App\quizz_questions;
 
 class QuizzController extends Controller {
 
@@ -21,6 +22,7 @@ class QuizzController extends Controller {
     }
 
     public function add(Request $req) {
+        // return $req;
         $req->validate([
             'title' => 'required',
             'course_id' => 'required',
@@ -55,6 +57,20 @@ class QuizzController extends Controller {
         } else {
             session()->flash('error', 'Something Wrong...!');
         }
+
+        if($req->quizz_question!="" )
+		{
+            foreach ($req->quizz_question as $key => $value) {
+              
+                $quizz_questions = new quizz_questions();
+                $quizz_questions->quizz_id = $quizz->id;
+                $quizz_questions->org_id =  Session::get('org_id');
+                $quizz_questions->question_id = $req->quizz_question[$key];
+                $quizz_questions->save();
+              
+            }
+        }
+        
         return redirect()->back();
     }
 
@@ -89,4 +105,46 @@ class QuizzController extends Controller {
         return view('Quizz.quizz_demo');
     }
 
+    public function show(Request $Request) {
+        // $data['quizz']=Quizz::where('id',$Request->id)->first();
+        $data['quizz']=Quizz::where('quizz.id',$Request->id)
+        ->leftjoin('courses', 'courses.id', '=', 'quizz.course_id')
+        ->select(
+            'quizz.id as id',
+            'quizz.org_id as org_id',
+            'quizz.title as title',
+            'quizz.course_id as course_id',
+            'quizz.time_limit as time_limit',
+            'quizz.max_tries as max_tries',
+            'quizz.no_of_question as no_of_question',
+            'quizz.instruction as instruction',
+            'quizz.description as description',
+            'quizz.status as status',
+            'courses.course_name as course_name'
+        )
+        ->first();
+
+
+
+        // $data['quizz_questions']=quizz_questions::where('quizz_id',$Request->id)->get()->toArray();
+        $data['quizz_questions']=quizz_questions::where('quizz_questions.quizz_id',$Request->id)
+        ->leftjoin('mcq_questions', 'mcq_questions.id', '=', 'quizz_questions.question_id')
+        ->select(
+            'quizz_questions.id as id',
+            'quizz_questions.org_id as org_id',
+            'quizz_questions.quizz_id as quizz_id',
+            'quizz_questions.question_id as question_id',
+            // 'quizz_questions.course_id as course_id',
+            'mcq_questions.question as question'
+   
+        )
+        ->get()->toArray();
+
+		// echo ("<pre>");
+		// print_r($data);
+		// exit;
+		
+		return $data;
+    }
+    
 }

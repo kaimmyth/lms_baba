@@ -163,6 +163,8 @@
 <!--                            <i class="fa fa-download" aria-hidden="true"></i>
                             <a href="http://baba.software/lms_baba/edit_certificate"><i class="fa fa-plus" aria-hidden="true"></i></a>
                             <i class="fa fa-certificate"></i>-->
+                            <a href="#" id="{{$value['id']}}" onclick="show_details(this.id, '<?php echo $value['type']; ?>')"> <i class="fas fa-eye"></i></a>&nbsp;&nbsp;&nbsp;
+
                             <a onclick="editQuizz('{{json_encode($value)}}')"><i class="fas fa-edit"></i></a>
                             <a href="{{url(Session::get('form_url').'/delete/'.$value->id)}}" onclick="return confirm('Are you sure you want to delete this Quizz ?');"><i class="fa fa-trash" aria-hidden="true"></i></a>
                         </td>
@@ -251,12 +253,11 @@
                     {
                         for(i=0; i<data.mcq_questions.length; i++)
                         {
-                            
-                                
-                           
-                            markup_show += `<tr><td><input type='checkbox' value='1"+name+"' name='correct_answer[]'></td><td>`+data.mcq_questions[i].question+`</td>`;
-                            markup_show += `</tr>`;
-                          
+
+                            // markup_show += `<tr><td><input type='checkbox' value='1"+id+"' name='correct_answer[]'></td><td>`+data.mcq_questions[i].question+`</td><td>`+data.mcq_questions[i].id+`</td>`;
+                            // markup_show += `</tr>`;
+                            markup_show += `<tr><td><input type='checkbox' value=`+data.mcq_questions[i].id+` name='quizz_question[]'></td><td>`+data.mcq_questions[i].question+`</td><td>`+data.mcq_questions[i].id+`</td>`;
+                             markup_show += `</tr>`;
                         }
                        
                         $("#table_element_show").html(markup_show);
@@ -264,4 +265,140 @@
              }
     });
 }
+</script>
+
+
+<!-- show modal -->
+
+<div class="modal fade bd-example-modal-lg" id="my_show_Modal" role="dialog" style="top:10%;">
+    <div class="modal-dialog modal-lg" style=" max-width: 1284px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<h4 class="modal-title">Question</h4>-->
+                <div class="modal-title">
+                    <div class="app-page-title" style="padding: 11px; margin: 4px 5px 23px; position: relative;">
+                        <div class="page-title-wrapper">
+                            <div class="page-title-heading">
+                                <div class="page-title-icon">
+                                    <i class="pe-7s-car icon-gradient bg-mean-fruit">
+                                    </i>
+                                </div>
+                                <div>  <span></span>  Quizz
+                                
+                                    <div class="page-title-subheading">
+                                    </div>
+                                </div>
+                            </div><!--end of page-title-heading -->
+                        </div><!--end of page-title-wrapper-->
+                    </div><!--end of page title-->
+                </div>
+                <button type="button" class="close"  data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="pull-right" style="padding: 20px;">
+                     <a href="#" id="{{@$value['id']}}" onclick="edit_details(this.id, '<?php echo @$value['type']; ?>')"> <i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="card-body">
+           
+                   
+                    <h6><strong>TITLE</strong></h6>
+                    <p id="quizz_title_show"></p><br>
+                    <h6><strong>COURSE</strong></h6>
+                    <p id="quizz_course_name_show"></p><br>
+                    <h6><strong>TIME LIMIT</strong></h6>
+                    <p id="quizz_time_limit_show"></p><br>
+                    <h6><strong>MAX TRIES</strong></h6>
+                    <p id="quizz_max_tries_show"></p><br>
+                    <h6><strong>NO OF QUESTION</strong></h6>
+                    <p id="quizz_no_of_question_show"></p><br>
+                    <h6><strong>INSTRUCTION</strong></h6>
+                    <p id="quizz_instruction_show"></p><br>
+                    <h6><strong>DESCRIPTION</strong></h6><br>
+                    <p id="quizz_description_show"></p><br>
+                    <h6 ><strong>STATUS</strong></h6>
+                    <p id="quizz_status_show"></p><br>
+                    
+
+                    <div class="col-md-12">
+                        <table class="mb-0 table table-sm">
+                            <thead style="width: 100%;"> 
+                                <tr>
+                                    <th>Questions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_questin_show" > 
+                        
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+           
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div> -->
+          
+        </div>
+
+    </div>
+</div>
+<!-- end show modal -->
+
+
+<!-- show script  -->
+<script>
+    function show_details(id) {
+    
+        
+    $.ajaxSetup({
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+    });
+
+    $.ajax({
+    
+        url: "{{url(Session::get('form_url').'/show')}}"+"/"+id ,
+            method: "GET",
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            // console.log(data.quizz);
+            console.log(data.quizz_questions.length);
+               
+
+            $("#my_show_Modal").modal("show");
+            $("#quizz_title_show").html(data.quizz.title);
+            $("#quizz_course_id_show").html(data.quizz.course_id);
+            $("#quizz_time_limit_show").html(data.quizz.time_limit);
+            $("#quizz_max_tries_show").html(data.quizz.max_tries);
+            $("#quizz_no_of_question_show").html(data.quizz.no_of_question);
+            $("#quizz_instruction_show").html(data.quizz.instruction);
+            $("#quizz_description_show").html(data.quizz.description);
+            $("#quizz_status_show").html(data.quizz.status);
+            $("#quizz_course_name_show").html(data.quizz.course_name);
+
+            var markup_shown = ``;
+            if(data.quizz_questions)
+                    {
+                        for(i=0;i<data.quizz_questions.length; i++)
+                        {
+                            markup_shown += `<tr><td>`+data.quizz_questions[i].question_id+`</td></tr>`;
+                        }
+                        $("#table_questin_show").html(markup_shown);
+                    }
+                    
+
+
+                 
+                    
+             }
+    });
+}
+
+
 </script>

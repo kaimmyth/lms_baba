@@ -331,6 +331,7 @@ Route::prefix('{user}')->group(function() {
         /* ---------Start Route For Instructor Quizz Access -------- */
         Route::prefix('quizz')->group(function () {
             Route::get('/', 'QuizzController@Quizz');
+            Route::get('/show/{id}', 'QuizzController@show');
             Route::post('/add', 'QuizzController@add');
             Route::get('/delete/{id}', 'QuizzController@deleteQuizz');
         });
