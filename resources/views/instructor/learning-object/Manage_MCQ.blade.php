@@ -188,22 +188,51 @@
                      <a href="#" id="{{@$value['id']}}" onclick="edit_details(this.id, '<?php echo @$value['type']; ?>')"> <i class="fas fa-edit"></i></a>&nbsp;&nbsp;&nbsp;
                 </div>
                 <div class="card-body" id="apple">
-           
+                
+                    <table class="table table-borderless">
+                        <tbody>
+                          <tr>
+                            <td><p><strong>Question : </strong></p></td>
+                            <td><p  id="question_show" style="float: left;"></p></td>
+                          </tr>
+                          <tr class="hide_table_element">
+                            <td  ><p><strong>Correct Answer : </strong></p></td>
+                            <td><p class="correct_answer_show"></p></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table class="table table-borderless">
+                        <tbody>
+                          <tr>
+                            <td><p><strong>Category : </strong></p></td>
+                            <td><p  id="question_category_show" style="float: left;"></p></td>
+                            <td><p><strong>Score : </strong></p></td>
+                            <td><p id="score_show"></p></td>
+                            <td>  <p><strong>Course : </strong></p></td>
+                            <td> <p id="course_name_show"></p></td>
+                            <td><p><strong>Type : </strong></p></td>
+                            <td> <p id="question_type_show"></p></td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+
+
                    
-                    <h6><strong>Question</strong></h6>
-                    <p id="question_show"></p><br>
-                    <h6><strong>Question Category</strong></h6>
-                    <p id="question_category_show"></p><br>
-                    <h6><strong>Score</strong></h6>
-                    <p id="score_show"></p><br>
-                    <h6><strong>Course</strong></h6>
-                    <p id="course_name_show"></p><br>
-                    <h6><strong>Type</strong></h6>
-                    <p id="question_type_show"></p><br>
-                    <h6 class="hide_table_element"><strong>Correct Answer</strong></h6>
-                    <p class="correct_answer_show"></p><br>
-                    <h6 class="hide_table_element"><strong>Answer</strong></h6>
-                    <p id="answer_show"></p><br>
+                    <!-- <h6><strong>Question</strong></h6> -->
+                    <!-- <p id="question_show"></p><br> -->
+                    <!-- <h6><strong>Question Category</strong></h6> -->
+                    <!-- <p id="question_category_show"></p><br> -->
+                    <!-- <h6><strong>Score</strong></h6> -->
+                    <!-- <p id="score_show"></p><br> -->
+                    <!-- <h6><strong>Course</strong></h6> -->
+                    <!-- <p id="course_name_show"></p><br> -->
+                    <!-- <h6><strong>Type</strong></h6> -->
+                    <!-- <p id="question_type_show"></p><br> -->
+                    <!-- <h6 class="hide_table_element"><strong>Correct Answer</strong></h6> -->
+                    <!-- <p class="correct_answer_show"></p><br> -->
+                    <!-- <h6 class="hide_table_element"><strong>Answer</strong></h6> -->
+                    <!-- <p id="answer_show"></p><br> -->
                     
 
                     <table class="hide_table_element">

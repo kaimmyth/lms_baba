@@ -7,6 +7,7 @@ use App\Course;
 use Illuminate\Support\Facades\Session;
 use App\Quizz;
 use App\quizz_questions;
+use App\mcq_questions;
 
 class QuizzController extends Controller {
 
@@ -67,9 +68,15 @@ class QuizzController extends Controller {
                 $quizz_questions->org_id =  Session::get('org_id');
                 $quizz_questions->question_id = $req->quizz_question[$key];
                 $quizz_questions->save();
+                // $mcq_questions=mcq_questions::where('id',$req->quizz_question[$key])->update(array(
+                //     'move'=>1
+                // ));
               
             }
         }
+
+
+
         
         return redirect()->back();
     }
@@ -146,5 +153,52 @@ class QuizzController extends Controller {
 		
 		return $data;
     }
-    
+
+    public function edit_show(Request $Request) {
+        // $data['quizz']=Quizz::where('id',$Request->id)->first();
+        $data['quizz']=Quizz::where('quizz.id',$Request->id)
+        ->leftjoin('courses', 'courses.id', '=', 'quizz.course_id')
+        ->select(
+            'quizz.id as id',
+            'quizz.org_id as org_id',
+            'quizz.title as title',
+            'quizz.course_id as course_id',
+            'quizz.time_limit as time_limit',
+            'quizz.max_tries as max_tries',
+            'quizz.no_of_question as no_of_question',
+            'quizz.instruction as instruction',
+            'quizz.description as description',
+            'quizz.status as status',
+            'courses.course_name as course_name'
+        )
+        ->first();
+
+
+
+        // $data['quizz_questions']=quizz_questions::where('quizz_id',$Request->id)->get()->toArray();
+        $data['quizz_questions']=quizz_questions::where('quizz_questions.quizz_id',$Request->id)
+        ->leftjoin('mcq_questions', 'mcq_questions.id', '=', 'quizz_questions.question_id')
+        ->select(
+            'quizz_questions.id as id',
+            'quizz_questions.org_id as org_id',
+            'quizz_questions.quizz_id as quizz_id',
+            'quizz_questions.question_id as question_id',
+            // 'quizz_questions.course_id as course_id',
+            'mcq_questions.question as question'
+   
+        )
+        ->get()->toArray();
+
+        //  $data['mcq_questions']=mcq_questions::get()->toArray();
+        // $data['mcq_questions']=mcq_questions::where('course_id',$Request->course_id)->get()->toArray();
+        // $data['mcq_questions']=mcq_questions::where('mcq_questions.course_id',$Request->course_id)->where('move',1)->get()->toArray();
+        // $data['mcq_questions']=mcq_questions::where('move',1)->get()->toArray();
+
+		// echo ("<pre>");
+		// print_r($data);
+		// exit;
+		
+		return $data;
+    }
+
 }

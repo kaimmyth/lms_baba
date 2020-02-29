@@ -143,6 +143,7 @@ Route::prefix('{user}')->group(function() {
             /* ---------Start Route For Company Instructor Test Series Access -------- */
             Route::prefix('test-series')->group(function () {
                 Route::get('/', 'TestSeriesController@index');
+                Route::get('/fetch_details/{id}', 'TestSeriesController@fetch_details');
                 Route::post('/add', 'TestSeriesController@store');
                 Route::get('/delete/{id}', 'TestSeriesController@delete');
             });
@@ -332,6 +333,7 @@ Route::prefix('{user}')->group(function() {
         Route::prefix('quizz')->group(function () {
             Route::get('/', 'QuizzController@Quizz');
             Route::get('/show/{id}', 'QuizzController@show');
+            Route::get('/edit_show/{id}', 'QuizzController@edit_show');
             Route::post('/add', 'QuizzController@add');
             Route::get('/delete/{id}', 'QuizzController@deleteQuizz');
         });
@@ -341,6 +343,7 @@ Route::prefix('{user}')->group(function() {
         /* ---------Start Route For Instructor Test Series Access -------- */
         Route::prefix('test-series')->group(function () {
             Route::get('/', 'TestSeriesController@index');
+            Route::get('/fetch_details/{id}', 'TestSeriesController@fetch_details');
             Route::post('/add', 'TestSeriesController@store');
             Route::get('/delete/{id}', 'TestSeriesController@delete');
         });
