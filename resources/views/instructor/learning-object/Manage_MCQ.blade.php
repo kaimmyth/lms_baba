@@ -95,8 +95,41 @@
                     </div>
                 </div>
             </div>
+            <!-- bulk uploda start -->
+            <div class="dropdown d-inline-block">
+                <!-- <button type="button" class="btn btn-primary mb-2 mr-2" data-toggle="modal" data-target="#myModal">New Question</button> -->
+                <button  type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-primary">Bulk Upload</button>
+                <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
+                    <div class="container">
+                        <div class="radio">
+                            <input id="radio-1" name="question_type" value="Single" type="radio" checked>
+                            <label for="radio-1" class="radio-label">Single Choice</label>
+                        </div>
 
+                        <div class="radio">
+                            <input id="radio-2" name="question_type" value="Multiple" type="radio">
+                            <label  for="radio-2" class="radio-label">Multiple Choice</label>
+                        </div>
 
+                        <div class="radio">
+                            <input id="radio-3" name="question_type" value="Extended" type="radio">
+                            <label  for="radio-3" class="radio-label">Extended Text</label>
+                        </div>
+
+                        <div class="radio">
+                            <input id="radio-4" name="question_type" value="Text Entry" type="radio">
+                            <label  for="radio-4" class="radio-label">Text Entry</label>
+                        </div>
+
+                        <li class="nav-item-divider nav-item"></li>
+                        <li class="nav-item-btn nav-item">
+                            <button type="button" class="btn btn-primary mb-2 mr-2" onclick="modal_for_bulk_upload()" data-toggle="modal" >GO</button>
+                        </li>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end of bulk upload  -->
             <hr class="new2">
 
 
@@ -152,6 +185,101 @@
         </div>
     </div><!--end of main inner-->
 </div>
+
+
+
+<!-- bulk upload model  -->
+<div class="modal fade bd-example-modal-lg" id="bulk_upload_modal" role="dialog" style="top:10%;">
+    <div class="modal-dialog modal-lg" style=" max-width: 1284px;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <div class="app-page-title" style="padding: 11px; margin: 4px 5px 23px; position: relative;">
+                        <div class="page-title-wrapper">
+                            <div class="page-title-heading">
+                                <div class="page-title-icon">
+                                    <i class="pe-7s-car icon-gradient bg-mean-fruit">
+                                    </i>
+                                </div>
+                                <div>  <span id="type_question_bulk_upload"></span> Choice Question Bulk Upload
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="close "  data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body"  id="reset_model">
+                <div class="card-body">
+                    <form id="FormValidation" method="post" action="{{url(('/'.Auth::user()->name.'/company/instructor/learning-object/manage-mcq/BulkUploadQuestion'))}}"  enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                          <div class="row gutter">
+                            <div class="col-md-4">
+                                <select class="form-control" name="course_id" id="course_id" required>
+                                    <option>Select Course</option>
+                                    @foreach($course as $value)
+                                    <option value="{{$value['id']}}" >{{$value['course_name']}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                              <input type="file" name="uploadfile" id="uploadfile" required="" accept=".csv" class="form-control" required="" aria-required="true">
+                              <span id="message"></span>
+                              <p id="upload_file_error_msg" style="color:red"></p>
+                            </div>
+                            <div class="col-md-4">
+                              <button type="submit" name="submit" value="upload_csv" id="upload" class="btn btn-info waves-effect waves-light" onclick="return submitForm()">Upload</button>
+                              <a href="" id="donwload-format-link" class="btn btn-info waves-effect waves-light"> <i class="fa fa-download"></i> Download Format</a>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="text" name="type_mcq" id="hidden_type_fro_bulk_upload">
+                        <div class="form-group">
+                          <div class="col-md-6">
+                            <button class="btn btn-default waves-effect" type="button" onclick="history.back()">Back</button>
+                          </div>
+                        </div>     
+                      </form>
+                     
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end of bulk upload model  -->
+
+<!-- script for bulkupload  -->
+<script>
+    var type = "";
+    function modal_for_bulk_upload(){
+        $("#bulk_upload_modal").modal("show");
+        type = $("input[name='question_type']:checked").val();
+        type_question = $("input[name='question_type']:checked").val();
+
+            // for download formate link
+            if(type=="Single"){
+                $("#donwload-format-link").attr("href", "{{asset('public/format/single-choice-question-formate.csv')}}");
+            }
+            else if(type=="Multiple"){
+                $("#donwload-format-link").attr("href", "{{asset('public/format/multiple-choice-question-formate.csv')}}");
+            }
+            else if(type=="Extended"){
+                $("#donwload-format-link").attr("href", "{{asset('public/format/extended-choice-question-formate.csv')}}");
+            }
+            else if(type=="Text Entry"){
+                $("#donwload-format-link").attr("href", "{{asset('public/format/text-Entry-choice-question-formate.csv')}}");
+            }
+         
+            $("#hidden_type_fro_bulk_upload").val(type);
+            $("#type_question_bulk_upload").html(type_question);
+    }
+</script>
+<!-- end of script for bulkupload  -->
+
+
+
 
 
 
@@ -259,8 +387,6 @@
     </div>
 </div>
 <!-- end show modal -->
-
-
 
 <!-- show script  -->
 <script>
@@ -370,61 +496,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="myModal" role="dialog" style="top:10%;">
     <div class="modal-dialog modal-lg" style=" max-width: 1284px;">
@@ -520,7 +591,7 @@
                     <hr class="new2">
 
                     <div  style="float: right;">
-                        <input type="text" id="hidden_type" name="question_type" value="" hidden>
+                        <input type="text" id="hidden_type" name="question_type" value="" >   
                         <button data-dismiss="modal" onclick="resetUserForm()" class="ladda-button mb-2 mr-2 btn-square btn btn-gradient-danger" data-style="slide-up">
                             <span class="ladda-label" >Cancel</span><span class="ladda-spinner"></span>
                         </button>
@@ -539,6 +610,9 @@
 
     </div>
 </div>
+
+
+
 
 
 <!-- type  -->
@@ -669,6 +743,10 @@
 
 
 </script>
+
+
+
+
 
 <!-- add new row -->
 <script>

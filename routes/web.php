@@ -119,6 +119,7 @@ Route::prefix('{user}')->group(function() {
                     /* ----Abhishek Anand----- */
                     Route::get('/set_mcq_question', 'LearningController@SetMcqQuestion');
                     Route::post('/add', 'LearningController@Add_mcq');
+                    Route::post('/BulkUploadQuestion', 'LearningController@BulkUploadQuestion');
                     Route::get('/delete_mcq/{id}', 'LearningController@delete_mcq');
                     Route::get('/active_deactive_mcq/{id}', 'LearningController@active_deactive_mcq');
                     Route::get('/changeStatus', 'LearningController@changeStatus');
@@ -317,6 +318,7 @@ Route::prefix('{user}')->group(function() {
                 /* ----Abhishek Anand----- */
                 Route::get('/set_mcq_question', 'LearningController@SetMcqQuestion');
                 Route::post('/add', 'LearningController@Add_mcq');
+                Route::post('/BulkUploadQuestion', 'LearningController@BulkUploadQuestion');
                 Route::get('/delete_mcq/{id}', 'LearningController@delete_mcq');
                 Route::get('/active_deactive_mcq/{id}', 'LearningController@active_deactive_mcq');
                 Route::get('/changeStatus', 'LearningController@changeStatus');

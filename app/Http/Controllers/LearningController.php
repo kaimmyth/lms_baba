@@ -244,8 +244,77 @@ class LearningController extends Controller {
 		// exit;
 		
 		return $data;
-	}
+    }
+    
+    // public function BulkUploadQuestion(Request $request)
+    // {
+    //     echo "hello";
+    // }
 
     /* --------End Abhishek Anand code--------- */
+
+    public function BulkUploadQuestion(Request $request)
+    {
+        if ($request->isMethod('post')) 
+        {
+            
+            if($_FILES["uploadfile"]["size"] > 0 && $request->submit=='upload_csv')
+            {
+
+                try
+                {
+                $filename=$_FILES["uploadfile"]["tmp_name"]; 
+                $file = fopen($filename, "r");
+                
+                // return fgetcsv($file, 100000, ",");
+                $i=0;
+                while (($csv_data = fgetcsv($file, 100000, ",")) !== FALSE)
+                {
+                if($i>0)
+                    {       
+                        
+                        $csvData['org_id'] = Session::get('org_id');
+                        $csvData['course_id'] = $request->course_id;
+                        $csvData['type'] = $request->type_mcq;
+                        $csvData['category'] =  preg_replace('/[^\w]/', '', $csv_data[0]);
+                        $csvData['question'] = preg_replace('/[^\w]/', '', $csv_data[1]);
+                        $csvData['score'] = preg_replace('/[^\w]/', '', $csv_data[2]);
+                    
+                        mcq_questions::insert($csvData);
+
+
+
+                        if (@$csv_data[3] != ""  &&  @$csv_data[4] != "" ) 
+                        {
+                            $answer = new mcq_answer();
+                            $answer->org_id =  Session::get('org_id');
+                            $answer->question_id =mcq_questions::orderBy('id','Desc')->value('id');
+                            $answer->answer = preg_replace('/[^\w]/', '', $csv_data[3]);                    
+                            $answer->correct_answer = preg_replace('/[^\w]/', '', $csv_data[4]);   
+                            $answer->save();
+                        }
+
+                        $all[] = $i++;
+                    } 
+                    $i++;
+               
+                }
+                
+            }catch (Exception $e) {
+                report($e);
+                return false;
+            }
+            Session::flash('message',count($all).' Data Uploaded Successfully!!');
+            return back();
+            exit();
+            }
+        }
+
+    
+    return redirect()->back();
+    }
+
+
+    
 
 }
