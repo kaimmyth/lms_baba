@@ -348,6 +348,7 @@ Route::prefix('{user}')->group(function() {
             Route::get('/fetch_details/{id}', 'TestSeriesController@fetch_details');
             Route::post('/add', 'TestSeriesController@store');
             Route::get('/delete/{id}', 'TestSeriesController@delete');
+            Route::get('/edit_show/{id}', 'TestSeriesController@edit_show');
         });
         /* ----------------End Instructor Test Series  Route----------------- */
 

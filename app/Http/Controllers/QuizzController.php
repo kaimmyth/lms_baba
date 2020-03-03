@@ -74,6 +74,14 @@ class QuizzController extends Controller {
               
             }
         }
+        if($req->quizz_question_remove!="" )
+		{
+            foreach ($req->quizz_question_remove as $key => $value) {
+                quizz_questions::where('id',$value)->update(array(
+                    'status'=>0
+                ));
+            }
+        }
 
 
 
@@ -135,6 +143,7 @@ class QuizzController extends Controller {
 
         // $data['quizz_questions']=quizz_questions::where('quizz_id',$Request->id)->get()->toArray();
         $data['quizz_questions']=quizz_questions::where('quizz_questions.quizz_id',$Request->id)
+        ->where('quizz_questions.status',1)
         ->leftjoin('mcq_questions', 'mcq_questions.id', '=', 'quizz_questions.question_id')
         ->select(
             'quizz_questions.id as id',
@@ -177,6 +186,7 @@ class QuizzController extends Controller {
 
         // $data['quizz_questions']=quizz_questions::where('quizz_id',$Request->id)->get()->toArray();
         $data['quizz_questions']=quizz_questions::where('quizz_questions.quizz_id',$Request->id)
+        ->where('quizz_questions.status',1)
         ->leftjoin('mcq_questions', 'mcq_questions.id', '=', 'quizz_questions.question_id')
         ->select(
             'quizz_questions.id as id',

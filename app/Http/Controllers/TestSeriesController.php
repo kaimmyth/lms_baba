@@ -119,6 +119,14 @@ class TestSeriesController extends Controller {
               
             }
         }
+        if($req->quizz_question_remove!="" )
+		{
+            foreach ($req->quizz_question_remove as $key => $value) {
+                test_series_questions::where('id',$value)->update(array(
+                    'status'=>0
+                ));
+            }
+        }
         return redirect()->back();
     }
 
@@ -208,6 +216,7 @@ class TestSeriesController extends Controller {
 
         // $data['test_series_questions']=test_series_questions::where('test_series_id',$Request->id)->get()->toArray();
         $data['test_series_questions']=test_series_questions::where('test_series_questions.test_series_id',$Request->id)
+        ->where('test_series_questions.status',1)
         ->leftjoin('mcq_questions', 'mcq_questions.id', '=', 'test_series_questions.question_id')
         ->select(
             'test_series_questions.id as id',
@@ -219,6 +228,53 @@ class TestSeriesController extends Controller {
    
         )
         ->get()->toArray();
+
+		// echo ("<pre>");
+		// print_r($data);
+		// exit;
+		
+		return $data;
+    }
+
+// ----------------------------------------------- edit ---------------------------- 
+    public function edit_show(Request $Request) {
+        // $data['TestSeries']=TestSeries::where('id',$Request->id)->first();
+        $data['TestSeries']=TestSeries::where('test_series.id',$Request->id)
+        ->leftjoin('test_series_categories', 'test_series_categories.id', '=', 'test_series.category_id')
+        ->select(
+            'test_series.id as id',
+            'test_series.org_id as org_id',
+            'test_series.category_id as category_id',
+            'test_series.title as title',
+            'test_series.time_limit as time_limit',
+            'test_series.max_tries as max_tries',
+            'test_series.passing_marks as passing_marks',
+            'test_series.total_marks as total_marks',
+            'test_series.no_of_question as no_of_question',
+            'test_series.instruction as instruction',
+            'test_series.description as description',
+            'test_series.status as status',
+            'test_series_categories.title as title_for_categories'
+        )
+        ->first();
+
+
+
+        // $data['test_series_questions']=test_series_questions::where('test_series_id',$Request->id)->get()->toArray();
+        $data['test_series_questions']=test_series_questions::where('test_series_questions.test_series_id',$Request->id)
+        ->where('test_series_questions.status', 1)
+        ->leftjoin('mcq_questions', 'mcq_questions.id', '=', 'test_series_questions.question_id')
+        ->select(
+            'test_series_questions.id as id',
+            'test_series_questions.org_id as org_id',
+            'test_series_questions.test_series_id as test_series_id',
+            'test_series_questions.question_id as question_id',
+            'mcq_questions.question as question'
+   
+        )
+        ->get()->toArray();
+
+
 
 		// echo ("<pre>");
 		// print_r($data);

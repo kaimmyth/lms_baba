@@ -97,7 +97,7 @@
                             <table class="mb-0 table table-sm">
                                 <thead style="width: 100%;"> 
                                     <tr>
-                                        <th>Select Questions</th>
+                                        <th id="message_show">Select Questions</th>
                                     </tr>
                                 </thead>
                                
@@ -183,8 +183,7 @@
 
 
 
-
-
+<!-- ---------------------------------------- old edit -------------------------------------------  -->
 <script>
     function editQuizz(data){
         if(data){
@@ -231,8 +230,9 @@
         }
     }
 </script>
+<!-- -------------------------------------------- end of old edit -------------------------------  -->
 
-
+<!-- -------------------------------- add quizz ---------------------------------------------- -->
 <script>
     function addQuizz() {
     document.getElementById("coursesform").reset();
@@ -248,7 +248,7 @@
     $('#courseForm').addClass('d-none');
     }
 </script>
-
+<!-- ------------------------------------- end of add quizz ---------------------------------- -->
 
 
 
@@ -279,10 +279,10 @@
 
 
 <!-- ================================================== edit quizz =================================== -->
-<!-- edit  -->
 <script>
     function edit_details(id, type_tmp) {
         // alert(id);
+        $("#message_show").html('Select To Remove');
       
         
     $.ajaxSetup({
@@ -320,7 +320,7 @@
                         {
                             // markup_shown += `<tr><td>`+data.quizz_questions[i].question+`</td></tr>`;
                             // markup_shown += `<tr><td><input type='checkbox' value='1"`+data.quizz_questions[i].id+`"' name='quizz_question[]'></td><td>`+data.quizz_questions[i].question+`</td><td>`+data.quizz_questions[i].id+`</td></tr>`;
-                            markup_shown += `<tr><td><input type='checkbox' checked value=`+data.quizz_questions[i].id+` name='quizz_question[]'></td><td>`+data.quizz_questions[i].question+`</td><td>`+data.quizz_questions[i].id+`</td></tr>`;
+                            markup_shown += `<tr><td><input type='checkbox'  value=`+data.quizz_questions[i].id+` name='quizz_question_remove[]'></td><td>`+data.quizz_questions[i].question+`</td></tr>`;
                            
                            
                         }
@@ -435,6 +435,30 @@
     });
 }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
